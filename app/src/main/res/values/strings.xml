@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Final_Project_PRM392</string>
     <string name="schedule_appointments_nwith_ease">Schedule Appointments\nWith Ease</string>
+    <string name="how_are_you_today">How Are You Today?</string>
+    <string name="hi_mosen_jamali">Hi, Mosen Jamali</string>
 </resources>
