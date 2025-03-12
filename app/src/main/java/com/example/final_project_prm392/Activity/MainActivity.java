@@ -9,6 +9,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.final_project_prm392.Adapter.CategoryAdapter;
+import com.example.final_project_prm392.Adapter.TopDoctorsAdapter;
 import com.example.final_project_prm392.ViewModel.MainViewModel;
 import com.example.final_project_prm392.databinding.ActivityMainBinding;
 
@@ -26,6 +27,16 @@ public class MainActivity extends ComponentActivity {
         viewModel = new MainViewModel();
         setContentView(binding.getRoot());
         initCategory();
+        initTopDoctors();
+    }
+
+    private void initTopDoctors() {
+        binding.progressBarDoctor.setVisibility(View.VISIBLE);
+        viewModel.loadDoctors().observe(this, doctorsModels -> {
+            binding.doctorView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            binding.doctorView.setAdapter(new TopDoctorsAdapter(doctorsModels));
+            binding.progressBarDoctor.setVisibility(View.GONE);
+        });
     }
 
     private void initCategory() {
