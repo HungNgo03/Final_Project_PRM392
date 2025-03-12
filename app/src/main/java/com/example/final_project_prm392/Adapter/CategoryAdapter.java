@@ -42,7 +42,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewho
                 R.drawable.orange_rec_bg
         };
         int backgroundRes = backgrounds[position % 4];
-        holder.binding.getRoot().setBackgroundColor(backgroundRes);
+        holder.binding.getRoot().setBackgroundResource(backgroundRes);
     }
 
     @Override
@@ -57,5 +57,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewho
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    public void updateItems(List<CategoryModel> newItems) {
+        this.items.clear();
+        this.items.addAll(newItems);
+        notifyDataSetChanged();
     }
 }

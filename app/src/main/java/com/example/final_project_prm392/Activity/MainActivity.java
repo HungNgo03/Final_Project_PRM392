@@ -1,6 +1,7 @@
-package com.example.final_project_prm392;
+package com.example.final_project_prm392.Activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.ComponentActivity;
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.final_project_prm392.Adapter.CategoryAdapter;
 import com.example.final_project_prm392.ViewModel.MainViewModel;
 import com.example.final_project_prm392.databinding.ActivityMainBinding;
+
+import java.util.ArrayList;
 
 public class MainActivity extends ComponentActivity {
     private ActivityMainBinding binding;
@@ -27,9 +30,15 @@ public class MainActivity extends ComponentActivity {
 
     private void initCategory() {
         binding.progressBarCat.setVisibility(View.VISIBLE);
+        binding.catView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.catView.setAdapter(new CategoryAdapter(new ArrayList<>()));
         viewModel.loadCategory().observe(this, categoryModels -> {
-            binding.catView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            binding.catView.setAdapter(new CategoryAdapter(categoryModels));
+            if (categoryModels != null) {
+                Log.d("MainActivity", "Received " + categoryModels.size() + " categories");
+                ((CategoryAdapter) binding.catView.getAdapter()).updateItems(categoryModels); // Giả sử adapter có phương thức updateData
+            } else {
+                Log.e("MainActivity", "No categories loaded");
+            }
             binding.progressBarCat.setVisibility(View.GONE);
         });
     }
