@@ -9,7 +9,7 @@ public class DoctorsModel implements Serializable {
     private String Name;
     private String Picture;
     private String Special;
-    private int Exprience;
+    private int Expriense;
     private String Cost;
     private String Date;
     private String Time;
@@ -70,12 +70,12 @@ public class DoctorsModel implements Serializable {
         Special = special;
     }
 
-    public int getExprience() {
-        return Exprience;
+    public int getExpriense() {
+        return Expriense;
     }
 
-    public void setExprience(int exprience) {
-        Exprience = exprience;
+    public void setExpriense(int expriense) {
+        Expriense = expriense;
     }
 
     public String getCost() {
