@@ -1,5 +1,6 @@
 package com.example.final_project_prm392.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -35,9 +36,9 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void InitTime() {
-        binding.timeView.setLayoutManager(new LinearLayoutManager(this,
+        binding.dateView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
-        binding.timeView.setAdapter(new TimeAdapter(generateTimeSlot()));
+        binding.dateView.setAdapter(new TimeAdapter(generateTimeSlot()));
     }
 
     private void InitDate() {
@@ -76,5 +77,11 @@ public class DetailActivity extends AppCompatActivity {
         binding.specialTxt.setText(item.getSpecial());
         binding.patiensTxt.setText(item.getPatiens() + "");
         binding.experinceTxt.setText(item.getExpriense() + " Years");
+        binding.bookAppointmentBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailActivity.this,
+                    com.example.final_project_prm392.Activity.BookAppointmentActivity.class);
+            intent.putExtra("DOCTOR_ID", item.getId());
+            startActivity(intent);
+        });
     }
 }

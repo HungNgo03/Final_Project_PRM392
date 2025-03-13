@@ -1,4 +1,4 @@
-package com.example.final_project_prm392.ui.theme.auth;
+package com.example.final_project_prm392.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.final_project_prm392.Activity.MainActivity;
+import com.example.final_project_prm392.Domain.User;
 import com.example.final_project_prm392.Repository.UserRepository;
 import com.example.final_project_prm392.databinding.ActivityRegisterBinding;
-import com.example.final_project_prm392.model.User;
 
 public class RegisterActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.final_project_prm392.model;
+package com.example.final_project_prm392.Domain;
 
 import java.util.Date;
 import java.util.Objects;

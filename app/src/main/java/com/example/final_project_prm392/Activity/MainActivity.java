@@ -1,5 +1,6 @@
 package com.example.final_project_prm392.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,8 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.final_project_prm392.Adapter.CategoryAdapter;
 import com.example.final_project_prm392.Adapter.TopDoctorsAdapter;
+import com.example.final_project_prm392.R;
 import com.example.final_project_prm392.ViewModel.MainViewModel;
 import com.example.final_project_prm392.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -28,8 +32,30 @@ public class MainActivity extends ComponentActivity {
         setContentView(binding.getRoot());
         initCategory();
         initTopDoctors();
+        setupBottomNavigation();
     }
 
+    private void setupBottomNavigation() {
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_appointments) {
+                startActivity(new Intent(MainActivity.this,
+                        com.example.final_project_prm392.Activity.AppointmentListActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                // Điều hướng đến màn hình profile (có thể là màn hình đăng nhập nếu chưa đăng nhập)
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    startActivity(new Intent(MainActivity.this,
+                            com.example.final_project_prm392.Activity.LoginActivity.class));
+                } else {
+                    // Điều hướng đến màn hình profile
+                }
+                return true;
+            }
+            return true;
+        });
+    }
     private void initTopDoctors() {
         binding.progressBarDoctor.setVisibility(View.VISIBLE);
         viewModel.loadDoctors().observe(this, doctorsModels -> {

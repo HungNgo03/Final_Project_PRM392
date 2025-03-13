@@ -2,7 +2,7 @@ package com.example.final_project_prm392.Repository;
 
 import androidx.annotation.NonNull;
 
-import com.example.final_project_prm392.model.User;
+import com.example.final_project_prm392.Domain.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

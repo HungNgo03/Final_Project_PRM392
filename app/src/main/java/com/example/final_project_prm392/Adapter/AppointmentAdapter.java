@@ -1,4 +1,4 @@
-package com.example.final_project_prm392.ui.theme.appointment;
+package com.example.final_project_prm392.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.final_project_prm392.Domain.Appointment;
 import com.example.final_project_prm392.Domain.DoctorsModel;
 import com.example.final_project_prm392.R;
 import com.example.final_project_prm392.Repository.DoctorRepository;
 import com.example.final_project_prm392.databinding.ItemAppointmentBinding;
-import com.example.final_project_prm392.model.Appointment;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
