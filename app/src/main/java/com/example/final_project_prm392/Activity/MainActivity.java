@@ -40,16 +40,14 @@ public class MainActivity extends ComponentActivity {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_appointments) {
                 startActivity(new Intent(MainActivity.this,
-                        com.example.final_project_prm392.Activity.AppointmentListActivity.class));
+                        AppointmentListActivity.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
-                // Điều hướng đến màn hình profile (có thể là màn hình đăng nhập nếu chưa đăng nhập)
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 if (currentUser == null) {
-                    startActivity(new Intent(MainActivity.this,
-                            com.example.final_project_prm392.Activity.LoginActivity.class));
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 } else {
-                    // Điều hướng đến màn hình profile
+                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 }
                 return true;
             }

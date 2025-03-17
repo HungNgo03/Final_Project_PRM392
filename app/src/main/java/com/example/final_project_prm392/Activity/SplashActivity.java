@@ -2,7 +2,6 @@ package com.example.final_project_prm392.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.startBtn.setOnClickListener(v -> {
-            Toast.makeText(SplashActivity.this, "Đã nhấn Continue", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
         });
     }
 }
