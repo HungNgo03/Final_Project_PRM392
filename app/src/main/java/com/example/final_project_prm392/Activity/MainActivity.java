@@ -30,6 +30,10 @@ public class MainActivity extends ComponentActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         viewModel = new MainViewModel();
         setContentView(binding.getRoot());
+        String userName = getIntent().getStringExtra("USER_NAME");
+        if (userName != null) {
+            binding.textView2.setText("Hi " + userName); // Display the user's name
+        }
         initCategory();
         initTopDoctors();
         setupBottomNavigation();

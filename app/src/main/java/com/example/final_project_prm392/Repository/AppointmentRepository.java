@@ -1,5 +1,7 @@
 package com.example.final_project_prm392.Repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.final_project_prm392.Domain.Appointment;
@@ -22,6 +24,22 @@ public class AppointmentRepository {
 
     public AppointmentRepository() {
         this.firestore = FirebaseFirestore.getInstance();
+    }
+
+    public void rescheduleAppointment(String appointmentId, Date newDate, String newTimeSlot, AppointmentCallback callback) {
+        DocumentReference documentRef = firestore.collection(COLLECTION_NAME).document(appointmentId);
+        documentRef.update("date", newDate, "time", newTimeSlot)
+                .addOnSuccessListener(aVoid -> {
+                    documentRef.get().addOnSuccessListener(documentSnapshot -> {
+                        Appointment updatedAppointment = documentSnapshot.toObject(Appointment.class);
+                        callback.onSuccess(updatedAppointment);
+                    });
+                    Log.d("AppointmentRepository", "Appointment rescheduled successfully");
+                })
+                .addOnFailureListener(e -> {
+                    callback.onFailure(e);
+                    Log.e("AppointmentRepository", "Failed to reschedule appointment", e);
+                });
     }
 
     public interface AppointmentCallback {

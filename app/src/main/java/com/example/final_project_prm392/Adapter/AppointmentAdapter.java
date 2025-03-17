@@ -1,5 +1,6 @@
 package com.example.final_project_prm392.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.final_project_prm392.Activity.RescheduleAppointmentActivity;
 import com.example.final_project_prm392.Domain.Appointment;
 import com.example.final_project_prm392.Domain.DoctorsModel;
 import com.example.final_project_prm392.R;
@@ -116,7 +118,11 @@ public class AppointmentAdapter extends ListAdapter<Appointment, AppointmentAdap
 
             // Set click listeners
             binding.cancelButton.setOnClickListener(v -> cancelListener.onAppointmentClick(appointment));
-            binding.rescheduleButton.setOnClickListener(v -> rescheduleListener.onAppointmentClick(appointment));
+            binding.rescheduleButton.setOnClickListener(v -> {
+                Intent intent = new Intent(binding.getRoot().getContext(), RescheduleAppointmentActivity.class);
+                intent.putExtra("APPOINTMENT_ID", appointment.getId());
+                binding.getRoot().getContext().startActivity(intent);
+            });
         }
 
         private void loadDoctorInfo(int doctorId) {
