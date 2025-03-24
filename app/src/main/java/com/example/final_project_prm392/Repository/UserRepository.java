@@ -5,7 +5,9 @@ import androidx.annotation.NonNull;
 import com.example.final_project_prm392.Domain.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -19,6 +21,17 @@ public class UserRepository {
     public UserRepository() {
         this.auth = FirebaseAuth.getInstance();
         this.firestore = FirebaseFirestore.getInstance();
+    }
+
+    public void resetPassword(String email, OperationCallback callback) {
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        callback.onSuccess();
+                    } else {
+                        callback.onFailure(task.getException());
+                    }
+                });
     }
 
     public interface UserCallback {
@@ -96,6 +109,24 @@ public class UserRepository {
                 });
     }
 
+    public void changePassword(String currentPassword, String newPassword, OperationCallback callback) {
+        FirebaseUser user = auth.getCurrentUser();
+        if (user == null) {
+            callback.onFailure(new Exception("No user logged in"));
+            return;
+        }
+
+        // Xác thực lại người dùng với mật khẩu hiện tại
+        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), currentPassword);
+        user.reauthenticate(credential)
+                .addOnSuccessListener(aVoid -> {
+                    // Sau khi xác thực thành công, đổi mật khẩu
+                    user.updatePassword(newPassword)
+                            .addOnSuccessListener(aVoid1 -> callback.onSuccess())
+                            .addOnFailureListener(callback::onFailure);
+                })
+                .addOnFailureListener(e -> callback.onFailure(new Exception("Current password is incorrect")));
+    }
     public void getCurrentUser(UserCallback callback) {
         FirebaseUser currentUser = auth.getCurrentUser();
 

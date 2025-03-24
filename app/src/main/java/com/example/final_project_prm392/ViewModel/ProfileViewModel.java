@@ -1,4 +1,3 @@
-// ProfileViewModel.java
 package com.example.final_project_prm392.ViewModel;
 
 import androidx.lifecycle.LiveData;
@@ -57,12 +56,10 @@ public class ProfileViewModel extends ViewModel {
 
         isLoading.setValue(true);
 
-        // Update user object
         currentUser.setName(name);
         currentUser.setPhone(phone);
         currentUser.setMedicalHistory(medicalHistory);
 
-        // Only update profile picture if a new one was provided
         if (profilePicture != null) {
             currentUser.setProfilePicture(profilePicture);
         }
@@ -79,6 +76,24 @@ public class ProfileViewModel extends ViewModel {
             public void onFailure(Exception e) {
                 errorMessage.postValue("Failed to update profile: " + e.getMessage());
                 isLoading.postValue(false);
+            }
+        });
+    }
+
+    // Thêm phương thức đổi mật khẩu
+    public void changePassword(String currentPassword, String newPassword) {
+        isLoading.setValue(true);
+        repository.changePassword(currentPassword, newPassword, new UserRepository.OperationCallback() {
+            @Override
+            public void onSuccess() {
+                isLoading.postValue(false);
+                errorMessage.postValue("Password updated successfully");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                isLoading.postValue(false);
+                errorMessage.postValue(e.getMessage());
             }
         });
     }

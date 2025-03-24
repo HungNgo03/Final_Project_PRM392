@@ -1,9 +1,9 @@
-// ProfileActivity.java
 package com.example.final_project_prm392.Activity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,6 +28,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ActivityProfileBinding binding;
     private ProfileViewModel viewModel;
     private Uri selectedImageUri;
+    private boolean isPasswordSectionVisible = false;
     private final ActivityResultLauncher<String> getContent = registerForActivityResult(
             new ActivityResultContracts.GetContent(),
             uri -> {
@@ -66,6 +67,57 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        // Thêm sự kiện cho nút Change Password
+        binding.changePasswordButton.setOnClickListener(v -> togglePasswordSection());
+
+        // Thêm sự kiện cho nút Submit New Password
+        binding.submitPasswordButton.setOnClickListener(v -> changePassword());
+    }
+
+    private void togglePasswordSection() {
+        isPasswordSectionVisible = !isPasswordSectionVisible;
+        int visibility = isPasswordSectionVisible ? View.VISIBLE : View.GONE;
+        binding.currentPasswordInputLayout.setVisibility(visibility);
+        binding.newPasswordInputLayout.setVisibility(visibility);
+        binding.confirmNewPasswordInputLayout.setVisibility(visibility);
+        binding.submitPasswordButton.setVisibility(visibility);
+
+        // Xóa các trường khi ẩn đi
+        if (!isPasswordSectionVisible) {
+            binding.currentPasswordEditText.setText("");
+            binding.newPasswordEditText.setText("");
+            binding.confirmNewPasswordEditText.setText("");
+        }
+    }
+
+    private void changePassword() {
+        String currentPassword = binding.currentPasswordEditText.getText().toString().trim();
+        String newPassword = binding.newPasswordEditText.getText().toString().trim();
+        String confirmNewPassword = binding.confirmNewPasswordEditText.getText().toString().trim();
+
+        if (TextUtils.isEmpty(currentPassword)) {
+            binding.currentPasswordEditText.setError("Current password is required");
+            return;
+        }
+
+        if (TextUtils.isEmpty(newPassword)) {
+            binding.newPasswordEditText.setError("New password is required");
+            return;
+        }
+
+        if (newPassword.length() < 6) {
+            binding.newPasswordEditText.setError("Password must be at least 6 characters");
+            return;
+        }
+
+        if (!newPassword.equals(confirmNewPassword)) {
+            binding.confirmNewPasswordEditText.setError("Passwords do not match");
+            return;
+        }
+
+        binding.progressBar.setVisibility(View.VISIBLE);
+        viewModel.changePassword(currentPassword, newPassword);
     }
 
     private void observeViewModel() {
@@ -75,6 +127,9 @@ public class ProfileActivity extends AppCompatActivity {
         viewModel.getErrorMessage().observe(this, errorMessage -> {
             if (errorMessage != null && !errorMessage.isEmpty()) {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+                if (errorMessage.equals("Password updated successfully")) {
+                    togglePasswordSection(); // Ẩn form sau khi đổi mật khẩu thành công
+                }
             }
         });
 
