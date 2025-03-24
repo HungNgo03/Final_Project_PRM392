@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.final_project_prm392.Domain.User;
 import com.example.final_project_prm392.Repository.UserRepository;
 import com.example.final_project_prm392.databinding.ActivityRegisterBinding;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -20,6 +23,10 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance());
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

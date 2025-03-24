@@ -44,6 +44,7 @@ android {
 dependencies {
     // Thêm Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+    implementation("com.google.firebase:firebase-appcheck-playintegrity:16.0.0")
     implementation(libs.google.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
